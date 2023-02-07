@@ -1,0 +1,270 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Users-API Documentation",
+    "description": "This is an API to manage users",
+    "version": "1.0.0",
+    "contact": {
+      "email": "Alef_Sloan@hotmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create User",
+        "description": "Create a new User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "John_Doe@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create new user object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "John_Doe@example.com"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "created_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    },
+                    "updated_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified Email is used by another user"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users", "Admin"],
+        "summary": "List all users profile",
+        "description": "List all users profiles if you are a admin",
+        "responses": {
+          "200": {
+            "description": "Show a list of all users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "John_Doe@example.com"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "created_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    },
+                    "updated_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    }
+                  }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Id specified is not a admin id"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "required": true,
+            "description": "Valid admin user id",
+            "schema": {
+            "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["Users", "Admin"],
+        "summary": "Turn user into admin",
+        "description": "Turn arealdy registered user id into admin",
+        "responses": {
+          "200": {
+            "description": "Turn specified user id into admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "John_Doe@example.com"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "created_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    },
+                    "updated_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The specified id not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "required": true,
+            "description": "ID of the user to be turned into admin",
+            "schema": {
+            "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Show unique user profile",
+        "description": "Show the user profile of the specified user id",
+        "responses": {
+          "200": {
+            "description": "Show the user profile of the specified user id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "John_Doe@example.com"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "created_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    },
+                    "updated_at": {
+                      "type": "Date",
+                      "example": "2018-01-01T00:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Specified user id not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "required": true,
+            "description": "Id of the registered user",
+            "schema": {
+            "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
